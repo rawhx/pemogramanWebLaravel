@@ -29,7 +29,7 @@
                     </div>
                     <div class="card-action">
                       <button id="submitKategori" class="btn btn-success">Submit</button>
-                      <button class="btn btn-danger">Cancel</button>
+                      <button type="button" class="btn btn-danger" onclick="onCancel()">Cancel</button>
                     </div>
                   </form>
                 </div>

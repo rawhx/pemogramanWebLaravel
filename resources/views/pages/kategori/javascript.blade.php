@@ -57,8 +57,8 @@
                         },
                         time: 1000,
                     });
-                    $('#formKategori')[0].reset();
                     $('#data').DataTable().ajax.reload();
+                    onCancel()
                 },
                 error: function (xhr) {
                     $.notify({
@@ -140,7 +140,8 @@
                         },
                         time: 1000,
                     });
-                    $('#data').DataTable().ajax.reload(); 
+                    $('#data').DataTable().ajax.reload();
+                    onCancel()
                 },
                 error: function (xhr) {
                     $.notify({
@@ -162,5 +163,11 @@
             swal.close();
           }
         });
+    }
+
+    function onCancel() {
+        $('#formKategori')[0].reset();
+        $('#formKategori').attr('data-id', ""); 
+        $('#submitKategori').text('Submit'); 
     }
 </script>
