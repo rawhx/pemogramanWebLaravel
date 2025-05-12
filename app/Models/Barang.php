@@ -5,16 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class Kategori extends Model
+class Barang extends Model
 {
-    protected $table = 'kategori';
-    protected $primaryKey = 'kategori_id';
+    protected $table = 'barang';
+    protected $primaryKey = 'barang_id';
     public $incrementing = false;
     protected $keyType = 'string';
 
     protected $fillable = [
-        'kategori_id',
-        'kategori_nama',
+        'barang_id',
+        'barang_nama',
+        'barang_harga',
+        'barang_kategori',
     ];
 
     protected static function boot()
@@ -28,8 +30,8 @@ class Kategori extends Model
         });
     }
 
-    public function barang()
+    public function kategori()
     {
-        return $this->hasOne(Barang::class, 'barang_kategori');
+        return $this->belongsTo(Kategori::class, 'barang_kategori', 'kategori_id');
     }
 }

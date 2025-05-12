@@ -42,7 +42,7 @@
             </span>
             <h4 class="text-section">Management</h4>
           </li>
-          <li class="nav-item {{$activePage == "kategori" ? "submenu active" : ""}}">
+          <li class="nav-item {{$activePage == "kategori" || $activePage == "barang" ? "submenu active" : ""}}">
             <a data-bs-toggle="collapse" href="#base">
               <i class="fas fa-layer-group"></i>
               <p>Produk</p>
@@ -55,9 +55,9 @@
                     <span class="sub-item">Kategori</span>
                   </a>
                 </li>
-                <li>
-                  <a href="/produk">
-                    <span class="sub-item">Produk</span>
+                <li class="{{$activePage == "barang" ? "active" : ""}}">
+                  <a href="/barang">
+                    <span class="sub-item">Barang</span>
                   </a>
                 </li>
               </ul>

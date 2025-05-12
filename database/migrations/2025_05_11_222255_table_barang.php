@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kategori', function (Blueprint $table) {
-            $table->uuid('kategori_id')->primary();
-            $table->string('kategori_nama');
+        Schema::create('barang', function (Blueprint $table) {
+            $table->uuid('barang_id')->primary();
+            $table->string('barang_nama');
+            $table->integer('barang_harga');
+            $table->uuid('barang_kategori');
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign('barang_kategori')->references('kategori_id')->on('kategori')->onDelete('cascade');
         }); 
     }
 
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kategori');
+        Schema::dropIfExists('barang');
     }
 };

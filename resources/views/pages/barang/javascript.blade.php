@@ -1,22 +1,55 @@
 <script>
     $(document).ready(function () {
+        $('#barang_kategori').select2({
+            // theme: 'bootstrap',
+            ajax: {
+                url: '/api/kategori',
+                dataType: 'json',
+                processResults: function (data) {
+                    
+                    return {
+                        results: data.map(function (item) {
+                            return {
+                                id: item.kategori_id,
+                                text: item.kategori_nama
+                            };
+                        })
+                    };
+                }
+            },
+            placeholder: 'Pilih kategori',
+            width: '100%',
+        });
+
         $("#data").DataTable({
             processing: true,
             serverSide: false,
             ajax: {
-                url: '/api/kategori',
+                url: '/api/barang',
                 method: 'GET',
                 dataSrc: ''
             },
             columns: [
                 {
-                    data: 'kategori_nama',
+                    data: 'barang_nama',
                     render: function(data, type, row) {
                         return data;
                     }
                 },
                 {
-                    data: 'kategori_id',
+                    data: 'barang_harga',
+                    render: function(data, type, row) {
+                        return data;
+                    }
+                },
+                {
+                    data: 'kategori',
+                    render: function(data, type, row) {
+                        return data.kategori_nama;
+                    }
+                },
+                {
+                    data: 'barang_id',
                     orderable: false, 
                     render: function(data, type, row) {
                         return `
@@ -30,16 +63,18 @@
             ]
         });
 
-        $('#formKategori').on('submit', function (e) {
+        $('#formBarang').on('submit', function (e) {
             e.preventDefault();
-            let url = '/api/kategori'
+            let url = '/api/barang'
             let method = "POST" 
             let data = {
-                kategori_nama: $('#kategori_nama').val()
+                barang_nama: $('#barang_nama').val(),
+                barang_harga: $('#barang_harga').val(),
+                barang_kategori: $('#barang_kategori').val()
             };
 
-            if ($('#formKategori').attr('data-id')) {
-                url = '/api/kategori/' + $('#formKategori').attr('data-id')
+            if ($('#formBarang').attr('data-id')) {
+                url = '/api/barang/' + $('#formBarang').attr('data-id')
                 method = 'PATCH'
             }
 
@@ -83,20 +118,22 @@
     });
 
     function onEdit(id) { 
+        openForm()
         $.ajax({
-            url: '/api/kategori/' + id, 
+            url: '/api/barang/' + id, 
             method: 'GET',
             success: function (res) {
-                console.log(res.kategori_nama)
-                $('#kategori_nama').val(res.kategori_nama); 
-                $('#formKategori').attr('data-id', id); 
-                $('#submitKategori').text('Update'); 
+                $('#barang_nama').val(res.barang_nama); 
+                $('#barang_harga').val(res.barang_harga); 
+                $('#barang_kategori').val(res.barang_kategori).trigger('change');
+                $('#formBarang').attr('data-id', id); 
+                $('#submitBarang').text('Update'); 
             },
             error: function (xhr) {
                 $.notify({
                     icon: 'icon-warning',
                     title: 'Error',
-                    message: 'Gagal mengambil data kategori.',
+                    message: 'Gagal mengambil data.',
                 },{
                     type: 'danger',
                     placement: {
@@ -128,7 +165,7 @@
         }).then((Delete) => {
           if (Delete) {
             $.ajax({
-                url: '/api/kategori/' + id,
+                url: '/api/barang/' + id,
                 method: 'DELETE',
                 success: function (res) {
                     $.notify({
@@ -169,8 +206,15 @@
     }
 
     function onCancel() {
-        $('#formKategori')[0].reset();
-        $('#formKategori').attr('data-id', ""); 
-        $('#submitKategori').text('Submit'); 
+        $('#formBarang')[0].reset();
+        $('#formBarang').attr('data-id', ""); 
+        $('#submitBarang').text('Submit'); 
+        $("#form").hide()
+        $("#dataView").show()
+    }
+
+    function openForm() {
+        $("#form").show()
+        $("#dataView").hide()
     }
 </script>
