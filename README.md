@@ -5,7 +5,7 @@ Install project
 
 clone project 
 ```bash
-  copy https://github.com/rawhx/pemogramanweblaravel
+  git clone https://github.com/rawhx/pemogramanweblaravel
   cd pemogramanweblaravel
 ```
 copy environment 
